@@ -1,12 +1,20 @@
 import React, {useState} from 'react'
-import{ View, Text } from 'react-native'
+import{ 
+  Button,
+  View, 
+  Text 
+} from 'react-native'
 import useChannel from './src/hooks/useChannel'
 
 
 const Messages = (props)=>{
   const messages = useChannel('room:lobby', (state, {event, payload})=>{
     const { name, message } = payload
-    state.push({name, message})
+    switch(event){
+      case 'shout':
+        state.push({name, message})
+    }
+    console.log("THE PAYLOAD", state)
     return state
   }, [])
 
@@ -14,6 +22,9 @@ const Messages = (props)=>{
   return(
     <View>
       <Text>Messages</Text>
+      <Button
+        title="Shout"
+      />
       <View>
         {messages.map((obj)=>{
           return(

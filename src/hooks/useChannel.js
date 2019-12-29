@@ -1,10 +1,9 @@
-import { useContext, useReducer, useEffect } from 'react'
+import React, { useContext, useReducer, useEffect } from 'react'
 import SocketContext from '../contexts/SocketContext'
 
 const useChannel = (channelTopic, reducer, initialState) => {
   const socket = useContext(SocketContext)
   const [ state, dispatch ] = useReducer(reducer, initialState)
-console.log("INITIAL STATE", initialState, state)
   useEffect(() => {
     const channel = socket.channel(channelTopic, { client: 'browser' })
 
@@ -21,6 +20,7 @@ console.log("INITIAL STATE", initialState, state)
       channel.leave()
     }
   }, [channelTopic])
+
 
   return state
 }

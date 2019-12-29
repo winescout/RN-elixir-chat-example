@@ -20,6 +20,7 @@ import {
 
 import Messages from './Messages'
 import SocketProvider from './src/providers/SocketProvider'
+import MessageStore from './src/stores/MessageStore'
 
 const App  = (props) => {
   sendMessage = ()=>{
@@ -32,7 +33,7 @@ const App  = (props) => {
         socketUrl="http://localhost:4000/socket"
         options={{token}}
       >
-        <Messages />
+        <Messages store={MessageStore}/>
       </SocketProvider>
     </>
   );

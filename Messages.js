@@ -5,18 +5,20 @@ import{
   Text 
 } from 'react-native'
 import useChannel from './src/hooks/useChannel'
+import{ observer } from 'mobx-react'
+import MessageStore from './src/stores/MessageStore'
 
-
-const Messages = (props)=>{
+const Messages = observer((props)=>{
   const messages = useChannel('room:lobby', (state, {event, payload})=>{
-    const { name, message } = payload
     switch(event){
       case 'shout':
-        state.push({name, message})
+        MessageStore.addMessage(payload)
+        
     }
-    console.log("THE PAYLOAD", state)
     return state
   }, [])
+
+  const { store } = props
 
 
   return(
@@ -26,7 +28,7 @@ const Messages = (props)=>{
         title="Shout"
       />
       <View>
-        {messages.map((obj)=>{
+        {store.messages.map((obj)=>{
           return(
             <View>
               <Text>{obj.name}: {obj.message}</Text>
@@ -37,6 +39,6 @@ const Messages = (props)=>{
     </View>
   )
   
-}
+})
 
 export default Messages

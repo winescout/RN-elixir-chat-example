@@ -4,28 +4,24 @@ import{
   View, 
   Text 
 } from 'react-native'
-import useChannel from './src/hooks/useChannel'
 import{ observer } from 'mobx-react'
-import MessageStore from './src/stores/MessageStore'
+import useChannel from './src/hooks/useChannel'
 
 const Messages = observer((props)=>{
-  const messages = useChannel('room:lobby', (state, {event, payload})=>{
-    switch(event){
-      case 'shout':
-        MessageStore.addMessage(payload)
-        
-    }
-    return state
-  }, [])
-
   const { store } = props
 
+  useChannel('room:lobby', store, [])
+
+  const handlePress = ()=> {
+    store.addMessage("Jane", "bbbbfaadfa")
+  }
 
   return(
-    <View>
+    <View style={{marginTop: 100}}>
       <Text>Messages</Text>
       <Button
         title="Shout"
+        onPress={handlePress}
       />
       <View>
         {store.messages.map((obj)=>{

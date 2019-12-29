@@ -1,28 +1,24 @@
 import React, { useContext, useReducer, useEffect } from 'react'
 import SocketContext from '../contexts/SocketContext'
 
-const useChannel = (channelTopic, reducer, initialState) => {
+const useChannel = (channelTopic, handler, initialState) => {
   const socket = useContext(SocketContext)
-  const [ state, dispatch ] = useReducer(reducer, initialState)
   useEffect(() => {
-    const channel = socket.channel(channelTopic, { client: 'browser' })
+    handler.channel = socket.channel(channelTopic, { client: 'browser' })
 
-    channel.onMessage = (event, payload) => {
-      dispatch({ event, payload })
+    handler.channel.onMessage = (event, payload) => {
+      handler.onMessage(event, payload)
       return payload
     }
 
-    channel.join()
+    handler.channel.join()
       .receive("ok", ({messages})=> console.log("JOINED", messages))
       .receive("error", ({reason})=> console.error("ERROR", reason))
 
     return ()=>{
-      channel.leave()
+      handler.leaveChannel()
     }
   }, [channelTopic])
-
-
-  return state
 }
 
 export default useChannel

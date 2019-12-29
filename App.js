@@ -23,9 +23,6 @@ import SocketProvider from './src/providers/SocketProvider'
 import MessageStore from './src/stores/MessageStore'
 
 const App  = (props) => {
-  sendMessage = ()=>{
-  }
-
   const token = null
   return (
     <>

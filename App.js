@@ -14,21 +14,26 @@ import {
   View,
   Text,
   StatusBar,
+  Alert,
+  Button
 } from 'react-native';
 
-const App: () => React$Node = () => {
+import Messages from './Messages'
+import SocketProvider from './src/providers/SocketProvider'
+
+const App  = (props) => {
+  sendMessage = ()=>{
+  }
+
+  const token = null
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-            <View>
-              <Text>Chat</Text>
-            </View>
-        </ScrollView>
-      </SafeAreaView>
+      <SocketProvider
+        socketUrl="http://localhost:4000/socket"
+        options={{token}}
+      >
+        <Messages />
+      </SocketProvider>
     </>
   );
 };
